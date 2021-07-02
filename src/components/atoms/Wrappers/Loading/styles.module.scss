@@ -1,0 +1,15 @@
+.loading {
+	height: 15px;
+}
+
+.error {
+	background-color: red;
+	padding: 0.5em 1em;
+	border-radius: 10px;
+	color: white;
+	display: flex;
+}
+
+.error_icon {
+	margin-right: 10px;
+}

@@ -1,0 +1,16 @@
+.outer {
+	height: 2em;
+	width: 2em;
+	padding: 0.5em;
+	border-radius: 10;
+	cursor: pointer;
+	transition: opacity 0.2s;
+}
+
+.outer:hover {
+	opacity: 0.5;
+}
+
+.image {
+	width: 100%;
+}

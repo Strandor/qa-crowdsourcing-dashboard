@@ -1,0 +1,17 @@
+{
+	"functions": {
+		"source": ".",
+		"runtime": "nodejs10"
+	},
+	"hosting": {
+		"public": "out",
+		"site": "spurningardashboard",
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"rewrites": [
+			{
+				"source": "**",
+				"function": "nextServer"
+			}
+		]
+	}
+}
