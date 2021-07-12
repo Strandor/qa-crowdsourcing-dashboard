@@ -1,4 +1,5 @@
 export interface Props {
 	children: string;
-	isLoading: boolean;
+	isLoading?: boolean;
+	onClick?: () => void;
 }

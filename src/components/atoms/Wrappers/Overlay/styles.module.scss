@@ -1,0 +1,42 @@
+.outer {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.5);
+	margin: auto;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	padding: 50px;
+}
+
+.inner {
+	background-color: white;
+	max-width: 700px;
+	margin: auto;
+	border-radius: 10px;
+	padding: 10px;
+	height: 100%;
+	overflow: scroll;
+}
+
+.close {
+	height: 40px;
+	width: 40px;
+	cursor: pointer;
+}
+
+.header {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 20px;
+}
+
+@media (max-width: 650px) {
+	.outer {
+		padding: 0;
+	}
+
+	.inner {
+		border-radius: 0;
+	}
+}

@@ -1,6 +1,11 @@
 @import "./abstracts/variables";
 @import "./base/typography";
 
+a {
+	text-decoration: none;
+	color: black;
+}
+
 html,
 body {
 	background-color: $background;
@@ -22,6 +27,8 @@ input {
 	transition: background-color 0.2s;
 
 	border: transparent 1px solid;
+
+	margin-bottom: 10px;
 }
 
 input:focus {
