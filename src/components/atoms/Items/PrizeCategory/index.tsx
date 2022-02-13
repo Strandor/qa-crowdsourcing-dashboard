@@ -5,14 +5,14 @@ import Link from "next/link";
 const PrizeCategory = ({
 	_id,
 	name,
-	chestURL,
+	lockedImg,
 	requiredLVL,
 }: Declerations.Prizes.PrizeCategory) => {
 	return (
 		<Link href={`/dashboard/prizes/${_id}`}>
 			<a>
 				<div className={styles.outer}>
-					<img src={chestURL} />
+					<img src={lockedImg} />
 					<h3>{name}</h3>
 					<h4>LVL {requiredLVL}+</h4>
 				</div>
