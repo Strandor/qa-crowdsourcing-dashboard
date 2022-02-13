@@ -4,7 +4,7 @@ import users from "./users";
 import answers from "./answers";
 import questions from "./questions";
 import auth from "./auth";
-// import prizes from "./prizes";
+import prizes from "./prizes";
 import prizeCategories from "./prizeCategories";
 
 export default function* rootSaga() {
@@ -13,7 +13,7 @@ export default function* rootSaga() {
 		yield fork(answers),
 		yield fork(questions),
 		yield fork(auth),
-		// yield fork(prizes),
 		yield fork(prizeCategories),
+		yield fork(prizes),
 	]);
 }

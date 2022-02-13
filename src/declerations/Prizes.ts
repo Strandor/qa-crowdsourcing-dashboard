@@ -9,9 +9,9 @@ export interface PrizeCategory {
 }
 
 export interface Prize {
-	_id: string;
+	_id?: string;
 	name: string;
 	img: string;
 	brandImg: string;
-	available: boolean;
+	available?: boolean;
 }

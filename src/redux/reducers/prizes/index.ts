@@ -18,6 +18,24 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 				...state,
 				total: { isLoading: false, data: [], error: action.payload },
 			};
+		case Prizes.CREATE_PRIZE:
+			return {
+				...state,
+				total: { isLoading: true, data: [...state.total.data] },
+			};
+		case Prizes.CREATE_PRIZE_SUCCESS:
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [...state.total.data, action.payload],
+				},
+			};
+		case Prizes.CREATE_PRIZE_FAILURE:
+			return {
+				...state,
+				total: { isLoading: false, data: [...state.total.data] },
+			};
 		default:
 			return state;
 	}

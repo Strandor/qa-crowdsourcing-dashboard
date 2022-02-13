@@ -16,8 +16,10 @@ const Prizes = () => {
 		(state: Redux.Reducers.StoreState) => state.prizeCategories.total.data
 	);
 
-	const prizes = prizeCategories.reduce((pv, cv) => [...pv, ...cv.prizes], []);
-	// .filter((prize) => prize._id);
+	// const prizes = prizeCategories.reduce((pv, cv) => [...pv, ...cv.prizes], []);
+	const prizes = useSelector(
+		(state: Redux.Reducers.StoreState) => state.prizes.total.data
+	);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -145,12 +147,13 @@ const Prizes = () => {
 			>
 				<Formik
 					initialValues={{
-						email: "",
-						password: "",
+						name: "",
+						img: "",
+						brandImg: "",
 					}}
 					onSubmit={(values) => {
-						console.log(values);
-
+						// console.log(values);
+						dispatch(Redux.Actions.createPrize(values));
 						// TODO: create a new prize category,
 					}}
 				>
