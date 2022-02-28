@@ -6,8 +6,12 @@ import { Line } from "react-chartjs-2";
 import { Field, Form, Formik } from "formik";
 import { Prize } from "../../../declerations/Prizes";
 // import { Reducers, Actions } from "../../../redux";
+import Select from "react-select";
+import { FormikSelect } from "../../../components/atoms";
+import { select } from "redux-saga/effects";
 
-// TODO: display prizes and create prize functionallity
+// TODO: create prize functionallity including prizes
+
 const Prizes = () => {
 	const [isCreatingNew, setIsCreatingNew] = useState(false);
 	const [isCreatingNewPrize, setIsCreatingNewPrize] = useState(false);
@@ -26,6 +30,26 @@ const Prizes = () => {
 		dispatch(Redux.Actions.fetchPrizes());
 		dispatch(Redux.Actions.fetchPrizeCategories());
 	}, []);
+
+	const dropdownOptions = prizes.map((prize) => {
+		return { value: prize._id, label: prize.name };
+	});
+
+	const [selectVal, setSelectVal] = useState([]);
+
+	const onSelectValues = (value) => {
+		// clone state
+		const clonedSelectState = JSON.parse(JSON.stringify(selectVal));
+		console.log(selectVal, "state pre selectValue");
+		const newState = [...value];
+		// clonedSelectState[index] = value;
+		setSelectVal(newState);
+		console.log(newState, "newState");
+		console.log(dropdownOptions, "after new state");
+		// console.log(clonedSelectState);
+	};
+
+	console.log(dropdownOptions, "!!!!");
 
 	return (
 		<>
@@ -135,6 +159,11 @@ const Prizes = () => {
 							name="lockedImg"
 						/>
 
+						<FormikSelect
+							handlePrizeSelect={(value) => onSelectValues(value)}
+							value={selectVal}
+							options={dropdownOptions}
+						/>
 						<Components.Atoms.Buttons.ActionButton>
 							Búa til
 						</Components.Atoms.Buttons.ActionButton>
