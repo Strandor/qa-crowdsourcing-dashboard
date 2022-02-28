@@ -2,15 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Redux from "../../../redux";
 import * as Components from "../../../components";
-import { Line } from "react-chartjs-2";
 import { Field, Form, Formik } from "formik";
-import { Prize } from "../../../declerations/Prizes";
-// import { Reducers, Actions } from "../../../redux";
-import Select from "react-select";
 import { FormikSelect } from "../../../components/atoms";
-import { select } from "redux-saga/effects";
-
-// TODO: create prize functionallity including prizes
 
 const Prizes = () => {
 	const [isCreatingNew, setIsCreatingNew] = useState(false);

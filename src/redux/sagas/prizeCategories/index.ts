@@ -8,6 +8,9 @@ import {
 	createPrizeCategory,
 	createPrizeCategorySuccess,
 	createPrizeCategoryFailure,
+	updatePrizeCategory,
+	updatePrizeCategorySuccess,
+	updatePrizeCategoryFailure,
 } from "../../actions";
 import { ExtractActionFromActionCreator } from "../../types";
 
@@ -36,6 +39,20 @@ function* onCreatePrizeCategory(
 	}
 }
 
+function* onUpdatePrizeCategory(
+	action: ExtractActionFromActionCreator<typeof updatePrizeCategory>
+) {
+	try {
+		const { data } = yield API.patch<Declerations.Prizes.PrizeCategory>(
+			"/api/v1/prizes/prizeCategory",
+			action.payload
+		);
+		yield put(updatePrizeCategorySuccess(data));
+	} catch (error) {
+		yield put(updatePrizeCategoryFailure(error.response.data));
+	}
+}
+
 export default function* prizeCategories() {
 	yield all([
 		yield takeLatest(
@@ -45,6 +62,10 @@ export default function* prizeCategories() {
 		yield takeLatest(
 			PrizeCategories.CREATE_PRIZECATEGORY,
 			onCreatePrizeCategory
+		),
+		yield takeLatest(
+			PrizeCategories.UPDATE_PRIZECATEGORY,
+			onUpdatePrizeCategory
 		),
 	]);
 }

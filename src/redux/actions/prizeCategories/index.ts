@@ -8,6 +8,9 @@ export enum PrizeCategories {
 	CREATE_PRIZECATEGORY = "CREATE_PRIZECATEGORY",
 	CREATE_PRIZECATEGORY_SUCCESS = "CREATE_PRIZECATEGORY_SUCCESS",
 	CREATE_PRIZECATEGORY_FAILURE = "CREATE_PRIZECATEGORY_FAILURE",
+	UPDATE_PRIZECATEGORY = "UPDATE_PRIZECATEGORY",
+	UPDATE_PRIZECATEGORY_SUCCESS = "UPDATE_PRIZECATEGORY_SUCCESS",
+	UPDATE_PRIZECATEGORY_FAILURE = "UPDATE_PRIZECATEGORY_FAILURE",
 }
 
 export const fetchPrizeCategories = () =>
@@ -35,4 +38,20 @@ export const createPrizeCategorySuccess = (
 
 export const createPrizeCategoryFailure = (error: Declerations.App.Error) => {
 	return createAction(PrizeCategories.CREATE_PRIZECATEGORY_FAILURE, error);
+};
+
+export const updatePrizeCategory = (
+	payload: Declerations.Prizes.PrizeCategory
+) => {
+	return createAction(PrizeCategories.UPDATE_PRIZECATEGORY, payload);
+};
+
+export const updatePrizeCategorySuccess = (
+	payload: Declerations.Prizes.PrizeCategory
+) => {
+	return createAction(PrizeCategories.UPDATE_PRIZECATEGORY_SUCCESS, payload);
+};
+
+export const updatePrizeCategoryFailure = (error: Declerations.App.Error) => {
+	return createAction(PrizeCategories.UPDATE_PRIZECATEGORY_FAILURE, error);
 };

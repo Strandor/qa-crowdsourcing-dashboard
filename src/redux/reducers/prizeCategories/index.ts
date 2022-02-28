@@ -42,6 +42,34 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 					error: action.payload,
 				},
 			};
+
+		case PrizeCategories.UPDATE_PRIZECATEGORY:
+			return {
+				...state,
+				total: { data: [...state.total.data], isLoading: true },
+			};
+		case PrizeCategories.UPDATE_PRIZECATEGORY_SUCCESS:
+			const newData = state.total.data.filter(
+				(category) => category._id == action.payload._id
+			);
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					// data: [...state.total.data, action.payload],
+					data: [action.payload, ...newData],
+				},
+			};
+
+		case PrizeCategories.UPDATE_PRIZECATEGORY_FAILURE:
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [...state.total.data],
+					error: action.payload,
+				},
+			};
 		default:
 			return state;
 	}
