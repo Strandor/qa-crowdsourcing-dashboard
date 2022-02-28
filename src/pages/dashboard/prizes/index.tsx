@@ -173,11 +173,10 @@ const Prizes = () => {
 						name: "",
 						img: "",
 						brandImg: "",
+						available: true,
 					}}
 					onSubmit={(values) => {
-						// console.log(values);
 						dispatch(Redux.Actions.createPrize(values));
-						// TODO: create a new prize category,
 					}}
 				>
 					<Form>
