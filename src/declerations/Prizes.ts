@@ -1,5 +1,5 @@
 export interface PrizeCategory {
-	_id?: string;
+	_id: string;
 	name: string;
 	// chestURL: string;
 	requiredLVL: number;
