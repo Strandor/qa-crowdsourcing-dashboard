@@ -1,10 +1,10 @@
 export interface PrizeCategory {
-	_id: string;
+	_id?: string;
 	name: string;
 	// chestURL: string;
 	requiredLVL: number;
 	lockedImg?: string;
-	prizes: Prize[];
+	prizes: Prize[] | string[];
 	unlockedImg?: string;
 }
 

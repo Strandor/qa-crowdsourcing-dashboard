@@ -38,8 +38,6 @@ const Prizes = () => {
 	const [selectVal, setSelectVal] = useState([]);
 
 	const onSelectValues = (value) => {
-		// const clonedSelectState = JSON.parse(JSON.stringify(selectVal));
-		// console.log(selectVal, "state pre selectValue");
 		const newState = [...value];
 		setSelectVal(newState);
 	};
@@ -132,12 +130,13 @@ const Prizes = () => {
 						unlockedImg: "",
 						lockedImg: "",
 						requiredLVL: 0,
+						prizes: [],
 					}}
 					onSubmit={(values) => {
 						// console.log(values);
 						setIsCreatingNew(false);
 						// TODO: create a new prize category, need to fix to take in prizes to
-						// dispatch(Redux.Actions.createPrizeCategory(values));
+						dispatch(Redux.Actions.createPrizeCategory(values));
 					}}
 				>
 					<Form>
