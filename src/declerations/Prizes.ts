@@ -4,7 +4,7 @@ export interface PrizeCategory {
 	// chestURL: string;
 	requiredLVL: number;
 	lockedImg?: string;
-	prizes?: Prize[];
+	prizes: Prize[];
 	unlockedImg?: string;
 }
 

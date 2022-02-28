@@ -117,8 +117,8 @@ const Prizes = () => {
 					onSubmit={(values) => {
 						// console.log(values);
 						setIsCreatingNew(false);
-						// TODO: create a new prize category,
-						dispatch(Redux.Actions.createPrizeCategory(values));
+						// TODO: create a new prize category, need to fix to take in prizes to
+						// dispatch(Redux.Actions.createPrizeCategory(values));
 					}}
 				>
 					<Form>

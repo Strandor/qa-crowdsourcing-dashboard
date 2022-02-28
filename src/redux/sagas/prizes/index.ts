@@ -7,6 +7,9 @@ import {
 	fetchPrizesFailure,
 	fetchPrizesSuccess,
 	createPrize,
+	modifyPrize,
+	modifyPrizeSuccess,
+	modifyPrizeFailure,
 } from "../../actions";
 import * as Declerations from "../../../declerations";
 import { ExtractActionFromActionCreator } from "../../types";
@@ -36,9 +39,24 @@ function* onCreatePrize(
 	}
 }
 
+function* onModifyPrize(
+	action: ExtractActionFromActionCreator<typeof modifyPrize>
+) {
+	try {
+		const { data } = yield API.patch<Declerations.Prizes.Prize>(
+			`/api/v1/prizes/prize/${action.payload._id}`,
+			action.payload
+		);
+		yield put(modifyPrizeSuccess(data));
+	} catch (error) {
+		yield put(modifyPrizeFailure(error.response.data));
+	}
+}
+
 export default function* prizes() {
 	yield all([
 		yield takeLatest(Prizes.FETCH_PRIZES, onFetchPrizes),
 		yield takeLatest(Prizes.CREATE_PRIZE, onCreatePrize),
+		yield takeLatest(Prizes.MODIFY_PRIZE, onModifyPrize),
 	]);
 }

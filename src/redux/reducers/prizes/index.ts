@@ -36,6 +36,29 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 				...state,
 				total: { isLoading: false, data: [...state.total.data] },
 			};
+		case Prizes.MODIFY_PRIZE:
+			return {
+				...state,
+				total: { isLoading: true, data: [...state.total.data] },
+			};
+		case Prizes.MODIFY_PRIZE_SUCCESS:
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [
+						...state.total.data.filter(
+							(prize) => prize._id == action.payload._id
+						),
+						action.payload,
+					],
+				},
+			};
+		case Prizes.MODIFY_PRIZE_FAILURE:
+			return {
+				...state,
+				total: { isLoading: false, data: [...state.total.data] },
+			};
 		default:
 			return state;
 	}
