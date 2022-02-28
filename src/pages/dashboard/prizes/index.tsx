@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Redux from "../../../redux";
 import * as Components from "../../../components";
+import * as Declarations from "../../../declerations";
 import { Field, Form, Formik } from "formik";
 import { FormikSelect } from "../../../components/atoms";
 
 const Prizes = () => {
-	const [isCreatingNew, setIsCreatingNew] = useState(false);
-	const [isCreatingNewPrize, setIsCreatingNewPrize] = useState(false);
+	const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+	const [isPrizeModalOpen, setIsPrizeModalOpen] = useState(false);
+
+	const [isEditPrize, setIsEditPrize] = useState(false);
+	const [isEditPrizeCategory, setIsEditPrizeCategory] = useState(false);
 
 	const prizeCategories = useSelector(
 		(state: Redux.Reducers.StoreState) => state.prizeCategories.total.data
@@ -35,7 +39,31 @@ const Prizes = () => {
 		setSelectVal(newState);
 	};
 
-	console.log(dropdownOptions, "!!!!");
+	const [prizeToEdit, setPrizeToEdit] = useState({});
+	const [categoryToEdit, setCategoryToEdit] = useState({});
+
+	const startEditPrize = (prize: Declarations.Prizes.Prize) => {
+		// setPrizeToEdit(prize);
+		setIsEditPrize(true);
+	};
+
+	const startEditCategory = (category: Declarations.Prizes.PrizeCategory) => {
+		setIsCategoryModalOpen(true);
+		setCategoryToEdit(category);
+		setIsEditPrizeCategory(true);
+	};
+
+	const closePrizeForm = () => {
+		setIsPrizeModalOpen(false);
+		setIsEditPrize(false);
+		setPrizeToEdit({});
+	};
+
+	const closeCategoryForm = () => {
+		setIsCategoryModalOpen(false);
+		setIsEditPrizeCategory(false);
+		setCategoryToEdit(false);
+	};
 
 	return (
 		<>
@@ -50,18 +78,25 @@ const Prizes = () => {
 						}}
 					>
 						{prizes.map((prize) => (
-							<Components.Atoms.Items.Prize
-								_id={prize._id}
-								name={prize.name}
-								img={prize.img}
-								available={prize.available}
-								brandImg={prize.brandImg}
-							></Components.Atoms.Items.Prize>
+							<div>
+								<Components.Atoms.Items.Prize
+									_id={prize._id}
+									name={prize.name}
+									img={prize.img}
+									available={prize.available}
+									brandImg={prize.brandImg}
+								></Components.Atoms.Items.Prize>
+								<Components.Atoms.Buttons.ActionButton
+									onClick={() => startEditPrize(prize)}
+								>
+									Edit
+								</Components.Atoms.Buttons.ActionButton>
+							</div>
 						))}
 
 						<div>
 							<Components.Atoms.Buttons.ActionButton
-								onClick={() => setIsCreatingNewPrize(true)}
+								onClick={() => setIsPrizeModalOpen(true)}
 							>
 								Búa til ný verðlaun
 							</Components.Atoms.Buttons.ActionButton>
@@ -88,7 +123,7 @@ const Prizes = () => {
 						<h2>Allir flokkar</h2>
 						<div>
 							<Components.Atoms.Buttons.ActionButton
-								onClick={() => setIsCreatingNew(true)}
+								onClick={() => setIsCategoryModalOpen(true)}
 							>
 								Búa til flokk
 							</Components.Atoms.Buttons.ActionButton>
@@ -102,32 +137,39 @@ const Prizes = () => {
 						}}
 					>
 						{prizeCategories.map((category) => (
-							<Components.Atoms.Items.PrizeCategory
-								_id={category._id}
-								name={category.name}
-								lockedImg={category.lockedImg}
-								requiredLVL={category.requiredLVL}
-								prizes={category.prizes}
-							/>
+							<div>
+								<Components.Atoms.Items.PrizeCategory
+									_id={category._id}
+									name={category.name}
+									lockedImg={category.lockedImg}
+									requiredLVL={category.requiredLVL}
+									prizes={category.prizes}
+								/>
+								<Components.Atoms.Buttons.ActionButton
+									onClick={() => startEditCategory(category)}
+								>
+									Edit
+								</Components.Atoms.Buttons.ActionButton>
+							</div>
 						))}
 					</div>
 				</div>
 			</Components.Layouts.Sidebar>
 			<Components.Atoms.Wrappers.Overlay
-				isVisible={isCreatingNew}
-				onClose={() => setIsCreatingNew(false)}
+				isVisible={isCategoryModalOpen}
+				onClose={() => closeCategoryForm()}
 			>
 				<Formik
 					initialValues={{
-						name: "",
-						unlockedImg: "",
-						lockedImg: "",
-						requiredLVL: 0,
+						name: `${isEditPrizeCategory ? "" : ""}`,
+						unlockedImg: `${isEditPrizeCategory ? "" : ""}`,
+						lockedImg: `${isEditPrizeCategory ? "" : ""}`,
+						requiredLVL: parseInt(`${isEditPrizeCategory ? 0 : 0}`),
 						prizes: [],
 					}}
 					onSubmit={(values) => {
 						// console.log(values);
-						setIsCreatingNew(false);
+						setIsCategoryModalOpen(false);
 						// TODO: create a new prize category, need to fix to take in prizes to
 						dispatch(Redux.Actions.createPrizeCategory(values));
 					}}
@@ -158,14 +200,15 @@ const Prizes = () => {
 				</Formik>
 			</Components.Atoms.Wrappers.Overlay>
 			<Components.Atoms.Wrappers.Overlay
-				isVisible={isCreatingNewPrize}
-				onClose={() => setIsCreatingNewPrize(false)}
+				isVisible={isPrizeModalOpen}
+				onClose={() => closePrizeForm()}
 			>
 				<Formik
+					// TODO: set initalValues as the state and set state as empty values if not editing
 					initialValues={{
-						name: "",
-						img: "",
-						brandImg: "",
+						name: `${isEditPrize ? "" : ""}`,
+						img: `${isEditPrize ? "" : ""}`,
+						brandImg: `${isEditPrize ? "" : ""}`,
 						available: true,
 					}}
 					onSubmit={(values) => {
@@ -176,6 +219,17 @@ const Prizes = () => {
 						<Field placeholder="Nafn" type="text" name="name" />
 						<Field placeholder="mynd" type="text" name="img" />
 						<Field placeholder="brandMynd" type="text" name="brandImg" />
+						{isEditPrize ? (
+							<Field
+								placeholder="Merkja sem farid"
+								type="checkbox"
+								name="available"
+							>
+								Merkja sem farið
+							</Field>
+						) : (
+							<></>
+						)}
 
 						<Components.Atoms.Buttons.ActionButton>
 							Búa til
