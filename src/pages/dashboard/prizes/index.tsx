@@ -6,6 +6,22 @@ import * as Declarations from "../../../declerations";
 import { Field, Form, Formik } from "formik";
 import { FormikSelect } from "../../../components/atoms";
 
+const INITIAL_CATEGORY_VALUES: Declarations.Prizes.PrizeCategory = {
+	name: "",
+	unlockedImg: "",
+	lockedImg: "",
+	prereqDescription: "",
+	requiredLVL: 0,
+	prizes: [],
+};
+
+const INITIAL_PRIZE_VALUES: Declarations.Prizes.Prize = {
+	name: "",
+	img: "",
+	brandImg: "",
+	available: true,
+};
+
 const Prizes = () => {
 	const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 	const [isPrizeModalOpen, setIsPrizeModalOpen] = useState(false);
@@ -39,30 +55,34 @@ const Prizes = () => {
 		setSelectVal(newState);
 	};
 
-	const [prizeToEdit, setPrizeToEdit] = useState({});
-	const [categoryToEdit, setCategoryToEdit] = useState({});
+	const [prizeToEdit, setPrizeToEdit] = useState(INITIAL_PRIZE_VALUES);
+	const [categoryToEdit, setCategoryToEdit] = useState(INITIAL_CATEGORY_VALUES);
 
 	const startEditPrize = (prize: Declarations.Prizes.Prize) => {
-		// setPrizeToEdit(prize);
+		setIsPrizeModalOpen(true);
+		setPrizeToEdit(prize);
 		setIsEditPrize(true);
 	};
 
 	const startEditCategory = (category: Declarations.Prizes.PrizeCategory) => {
 		setIsCategoryModalOpen(true);
-		setCategoryToEdit(category);
+		const reqLVL = category.prereqDescription.match(/(\d+)/).pop();
+		console.log(reqLVL, "reguiredlvl");
+		const editCategory = { ...category, requiredLVL: parseInt(reqLVL) };
+		setCategoryToEdit(editCategory);
 		setIsEditPrizeCategory(true);
 	};
 
 	const closePrizeForm = () => {
 		setIsPrizeModalOpen(false);
 		setIsEditPrize(false);
-		setPrizeToEdit({});
+		setPrizeToEdit(INITIAL_PRIZE_VALUES);
 	};
 
 	const closeCategoryForm = () => {
 		setIsCategoryModalOpen(false);
 		setIsEditPrizeCategory(false);
-		setCategoryToEdit(false);
+		setCategoryToEdit(INITIAL_CATEGORY_VALUES);
 	};
 
 	return (
@@ -142,8 +162,10 @@ const Prizes = () => {
 									_id={category._id}
 									name={category.name}
 									lockedImg={category.lockedImg}
+									unlockedImg={category.unlockedImg}
 									requiredLVL={category.requiredLVL}
 									prizes={category.prizes}
+									prereqDescription={category.prereqDescription}
 								/>
 								<Components.Atoms.Buttons.ActionButton
 									onClick={() => startEditCategory(category)}
@@ -160,13 +182,7 @@ const Prizes = () => {
 				onClose={() => closeCategoryForm()}
 			>
 				<Formik
-					initialValues={{
-						name: `${isEditPrizeCategory ? "" : ""}`,
-						unlockedImg: `${isEditPrizeCategory ? "" : ""}`,
-						lockedImg: `${isEditPrizeCategory ? "" : ""}`,
-						requiredLVL: parseInt(`${isEditPrizeCategory ? 0 : 0}`),
-						prizes: [],
-					}}
+					initialValues={categoryToEdit}
 					onSubmit={(values) => {
 						// console.log(values);
 						setIsCategoryModalOpen(false);
@@ -176,7 +192,7 @@ const Prizes = () => {
 				>
 					<Form>
 						<Field placeholder="Nafn" type="text" name="name" />
-						<Field placeholder="Lvl" type="number" name="requiredLvl" />
+						<Field placeholder="Lvl" type="number" name="requiredLVL" />
 						<Field
 							placeholder="Mynd kista opin"
 							type="text"
@@ -205,12 +221,7 @@ const Prizes = () => {
 			>
 				<Formik
 					// TODO: set initalValues as the state and set state as empty values if not editing
-					initialValues={{
-						name: `${isEditPrize ? "" : ""}`,
-						img: `${isEditPrize ? "" : ""}`,
-						brandImg: `${isEditPrize ? "" : ""}`,
-						available: true,
-					}}
+					initialValues={prizeToEdit}
 					onSubmit={(values) => {
 						dispatch(Redux.Actions.createPrize(values));
 					}}
