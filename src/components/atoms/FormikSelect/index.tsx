@@ -18,16 +18,7 @@ const FormikSelect = ({ value, handlePrizeSelect, options }) => {
 				options={options} // set list of the data
 				onChange={handlePrizeSelect}
 				value={value} // set selected value
-				// onChange={setSelectVal} // assign onChange function
 			/>
-
-			{/* {value && (
-				<div style={{ marginTop: 20, lineHeight: "25px" }}>
-					<b>Selected Options</b>
-					<br />
-					<pre>{JSON.stringify(value, null, 2)}</pre>
-				</div>
-			)} */}
 		</div>
 	);
 };

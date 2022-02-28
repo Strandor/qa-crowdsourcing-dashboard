@@ -38,15 +38,10 @@ const Prizes = () => {
 	const [selectVal, setSelectVal] = useState([]);
 
 	const onSelectValues = (value) => {
-		// clone state
-		const clonedSelectState = JSON.parse(JSON.stringify(selectVal));
-		console.log(selectVal, "state pre selectValue");
+		// const clonedSelectState = JSON.parse(JSON.stringify(selectVal));
+		// console.log(selectVal, "state pre selectValue");
 		const newState = [...value];
-		// clonedSelectState[index] = value;
 		setSelectVal(newState);
-		console.log(newState, "newState");
-		console.log(dropdownOptions, "after new state");
-		// console.log(clonedSelectState);
 	};
 
 	console.log(dropdownOptions, "!!!!");
