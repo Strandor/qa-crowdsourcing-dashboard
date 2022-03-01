@@ -70,6 +70,32 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 					error: action.payload,
 				},
 			};
+		case PrizeCategories.DELETE_PRIZECATEGORY:
+			return {
+				...state,
+				total: { data: [...state.total.data], isLoading: true },
+			};
+		case PrizeCategories.DELETE_PRIZECATEGORY_SUCCESS:
+			const filteredOutDeleted = state.total.data.filter(
+				(category) => category._id == action.payload._id
+			);
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [action.payload, ...filteredOutDeleted],
+				},
+			};
+
+		case PrizeCategories.DELETE_PRIZECATEGORY_FAILURE:
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [...state.total.data],
+					error: action.payload,
+				},
+			};
 		default:
 			return state;
 	}

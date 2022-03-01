@@ -11,6 +11,9 @@ import {
 	updatePrizeCategory,
 	updatePrizeCategorySuccess,
 	updatePrizeCategoryFailure,
+	deletePrizeCategory,
+	deletePrizeCategorySuccess,
+	deletePrizeCategoryFailure,
 } from "../../actions";
 import { ExtractActionFromActionCreator } from "../../types";
 
@@ -44,12 +47,25 @@ function* onUpdatePrizeCategory(
 ) {
 	try {
 		const { data } = yield API.patch<Declerations.Prizes.PrizeCategory>(
-			"/api/v1/prizes/prizeCategory",
+			`/api/v1/prizes/prizeCategory/${action.payload._id}`,
 			action.payload
 		);
 		yield put(updatePrizeCategorySuccess(data));
 	} catch (error) {
 		yield put(updatePrizeCategoryFailure(error.response.data));
+	}
+}
+
+function* onDeletePrizeCategory(
+	action: ExtractActionFromActionCreator<typeof deletePrizeCategory>
+) {
+	try {
+		const { data } = yield API.delete<Declerations.Prizes.PrizeCategory>(
+			`/api/v1/prizes/prizeCategory/${action.payload._id}`
+		);
+		yield put(deletePrizeCategorySuccess(data));
+	} catch (error) {
+		yield put(deletePrizeCategoryFailure(error.response.data));
 	}
 }
 
@@ -66,6 +82,10 @@ export default function* prizeCategories() {
 		yield takeLatest(
 			PrizeCategories.UPDATE_PRIZECATEGORY,
 			onUpdatePrizeCategory
+		),
+		yield takeLatest(
+			PrizeCategories.DELETE_PRIZECATEGORY,
+			onDeletePrizeCategory
 		),
 	]);
 }

@@ -92,12 +92,28 @@ const Prizes = () => {
 		<>
 			<Components.Layouts.Sidebar>
 				<div>
-					<h1>Verðlaun</h1>
 					<div
 						style={{
 							display: "flex",
-							justifyContent: "space-between",
-							alignItems: "center",
+							justifyContent: "left",
+							alignItems: "stretch",
+						}}
+					>
+						<h1 style={{ paddingRight: "20px" }}>Verðlaun</h1>
+
+						<div style={{ paddingLeft: "20px", marginTop: "7.5px" }}>
+							<Components.Atoms.Buttons.ActionButton
+								onClick={() => setIsPrizeModalOpen(true)}
+							>
+								Búa til ný verðlaun
+							</Components.Atoms.Buttons.ActionButton>
+						</div>
+					</div>
+					<div
+						style={{
+							display: "grid",
+							gridTemplateColumns: "repeat(4, 1fr)",
+							gap: 50,
 						}}
 					>
 						{prizes.map((prize) => (
@@ -127,39 +143,24 @@ const Prizes = () => {
 								</div>
 							</div>
 						))}
-
-						<div>
-							<Components.Atoms.Buttons.ActionButton
-								onClick={() => setIsPrizeModalOpen(true)}
-							>
-								Búa til ný verðlaun
-							</Components.Atoms.Buttons.ActionButton>
-						</div>
 					</div>
-					<div
-						style={{
-							display: "grid",
-							gridTemplateColumns: "repeat(3, 1fr)",
-							gap: 50,
-						}}
-					></div>
 				</div>
 				{/* herna skiptist i prizecategory */}
 				<div>
-					<h1>Vinningaflokkar</h1>
 					<div
 						style={{
 							display: "flex",
-							justifyContent: "space-between",
+							justifyContent: "left",
 							alignItems: "center",
+							paddingTop: "25px",
 						}}
 					>
-						<h2>Allir flokkar</h2>
-						<div>
+						<h1 style={{ paddingRight: "20px" }}>Vinningarflokkar</h1>
+						<div style={{ paddingLeft: "20px" }}>
 							<Components.Atoms.Buttons.ActionButton
 								onClick={() => setIsCategoryModalOpen(true)}
 							>
-								Búa til flokk
+								Búa til nýjan flokk
 							</Components.Atoms.Buttons.ActionButton>
 						</div>
 					</div>
@@ -217,7 +218,6 @@ const Prizes = () => {
 					initialValues={categoryToEdit}
 					onSubmit={(values) => {
 						setIsCategoryModalOpen(false);
-						// TODO: create a new prize category, need to fix to take in prizes to
 						const formatValues = {
 							...values,
 							prizes: values.prizes.map((prize) => prize._id),
@@ -225,7 +225,7 @@ const Prizes = () => {
 						if (isEditPrizeCategory) {
 							console.log(formatValues, "values i onSubmit");
 
-							// dispatch(Redux.Actions.updatePrizeCategory(formatValues));
+							dispatch(Redux.Actions.updatePrizeCategory(formatValues));
 						} else {
 							dispatch(Redux.Actions.createPrizeCategory(formatValues));
 						}

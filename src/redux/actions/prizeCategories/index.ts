@@ -11,6 +11,9 @@ export enum PrizeCategories {
 	UPDATE_PRIZECATEGORY = "UPDATE_PRIZECATEGORY",
 	UPDATE_PRIZECATEGORY_SUCCESS = "UPDATE_PRIZECATEGORY_SUCCESS",
 	UPDATE_PRIZECATEGORY_FAILURE = "UPDATE_PRIZECATEGORY_FAILURE",
+	DELETE_PRIZECATEGORY = "DELETE_PRIZECATEGORY",
+	DELETE_PRIZECATEGORY_SUCCESS = "DELETE_PRIZECATEGORY_SUCCESS",
+	DELETE_PRIZECATEGORY_FAILURE = "DELETE_PRIZECATEGORY_FAILURE",
 }
 
 export const fetchPrizeCategories = () =>
@@ -54,4 +57,20 @@ export const updatePrizeCategorySuccess = (
 
 export const updatePrizeCategoryFailure = (error: Declerations.App.Error) => {
 	return createAction(PrizeCategories.UPDATE_PRIZECATEGORY_FAILURE, error);
+};
+
+export const deletePrizeCategory = (
+	payload: Declerations.Prizes.PrizeCategory
+) => {
+	return createAction(PrizeCategories.DELETE_PRIZECATEGORY, payload);
+};
+
+export const deletePrizeCategorySuccess = (
+	payload: Declerations.Prizes.PrizeCategory
+) => {
+	return createAction(PrizeCategories.DELETE_PRIZECATEGORY_SUCCESS, payload);
+};
+
+export const deletePrizeCategoryFailure = (error: Declerations.App.Error) => {
+	return createAction(PrizeCategories.DELETE_PRIZECATEGORY_FAILURE, error);
 };
