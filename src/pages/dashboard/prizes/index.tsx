@@ -68,6 +68,11 @@ const Prizes = () => {
 		setIsCategoryModalOpen(true);
 		const reqLVL = category.prereqDescription.match(/(\d+)/).pop();
 		console.log(reqLVL, "reguiredlvl");
+		const prizesForCat = category.prizes.map((prize) => {
+			return { value: prize._id, label: prize.name };
+		});
+		setSelectVal(prizesForCat);
+		console.log(selectVal, "setSelectVal when openinig edit");
 		const editCategory = { ...category, requiredLVL: parseInt(reqLVL) };
 		setCategoryToEdit(editCategory);
 		setIsEditPrizeCategory(true);
@@ -223,6 +228,7 @@ const Prizes = () => {
 					// TODO: set initalValues as the state and set state as empty values if not editing
 					initialValues={prizeToEdit}
 					onSubmit={(values) => {
+						console.log(values);
 						dispatch(Redux.Actions.createPrize(values));
 					}}
 				>
