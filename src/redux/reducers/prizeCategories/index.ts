@@ -77,13 +77,13 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 			};
 		case PrizeCategories.DELETE_PRIZECATEGORY_SUCCESS:
 			const filteredOutDeleted = state.total.data.filter(
-				(category) => category._id == action.payload._id
+				(category) => category._id != action.payload._id
 			);
 			return {
 				...state,
 				total: {
 					isLoading: false,
-					data: [action.payload, ...filteredOutDeleted],
+					data: [...filteredOutDeleted],
 				},
 			};
 

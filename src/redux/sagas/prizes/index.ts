@@ -17,7 +17,7 @@ import { ExtractActionFromActionCreator } from "../../types";
 function* onFetchPrizes() {
 	try {
 		const { data } = yield API.get<Declerations.Prizes.Prize[]>(
-			"/api/v1/prizes/allPrizes"
+			"/api/v1/prizes/prize/"
 		);
 		yield put(fetchPrizesSuccess(data));
 	} catch (error) {

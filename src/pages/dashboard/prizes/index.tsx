@@ -135,7 +135,8 @@ const Prizes = () => {
 									</div>
 									<div style={{ width: "50%" }}>
 										<Components.Atoms.Buttons.RemoveButton
-											onClick={() => console.log(prize, "remove")}
+											// onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
+											onClick={() => console.log(prize)}
 										>
 											Remove
 										</Components.Atoms.Buttons.RemoveButton>
@@ -199,7 +200,9 @@ const Prizes = () => {
 									{/* </div> */}
 									{/* <div style={{ width: "50%" }}> */}
 									<Components.Atoms.Buttons.RemoveButton
-										onClick={() => console.log(category, "remove")}
+										onClick={() =>
+											dispatch(Redux.Actions.deletePrizeCategory(category))
+										}
 									>
 										Remove
 									</Components.Atoms.Buttons.RemoveButton>
