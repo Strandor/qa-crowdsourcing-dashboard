@@ -10,7 +10,6 @@ const PrizeCategory = ({
 	requiredLVL,
 	prereqDescription,
 }: Declerations.Prizes.PrizeCategory) => {
-	console.log(unlockedImg, lockedImg);
 	return (
 		<Link href={`/dashboard/prizes/${_id}`}>
 			<a>

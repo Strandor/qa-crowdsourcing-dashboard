@@ -67,12 +67,10 @@ const Prizes = () => {
 	const startEditCategory = (category: Declarations.Prizes.PrizeCategory) => {
 		setIsCategoryModalOpen(true);
 		const reqLVL = category.prereqDescription.match(/(\d+)/).pop();
-		console.log(reqLVL, "reguiredlvl");
 		const prizesForCat = category.prizes.map((prize) => {
 			return { value: prize._id, label: prize.name };
 		});
 		setSelectVal(prizesForCat);
-		console.log(selectVal, "setSelectVal when openinig edit");
 		const editCategory = { ...category, requiredLVL: parseInt(reqLVL) };
 		setCategoryToEdit(editCategory);
 		setIsEditPrizeCategory(true);
@@ -111,11 +109,22 @@ const Prizes = () => {
 									available={prize.available}
 									brandImg={prize.brandImg}
 								></Components.Atoms.Items.Prize>
-								<Components.Atoms.Buttons.ActionButton
-									onClick={() => startEditPrize(prize)}
-								>
-									Edit
-								</Components.Atoms.Buttons.ActionButton>
+								<div style={{ display: "flex", flex: "2" }}>
+									<div style={{ width: "50%" }}>
+										<Components.Atoms.Buttons.ActionButton
+											onClick={() => startEditPrize(prize)}
+										>
+											Edit
+										</Components.Atoms.Buttons.ActionButton>
+									</div>
+									<div style={{ width: "50%" }}>
+										<Components.Atoms.Buttons.RemoveButton
+											onClick={() => console.log(prize, "remove")}
+										>
+											Remove
+										</Components.Atoms.Buttons.RemoveButton>
+									</div>
+								</div>
 							</div>
 						))}
 
@@ -172,11 +181,29 @@ const Prizes = () => {
 									prizes={category.prizes}
 									prereqDescription={category.prereqDescription}
 								/>
-								<Components.Atoms.Buttons.ActionButton
-									onClick={() => startEditCategory(category)}
+
+								<div
+									style={{
+										display: "flex",
+										flex: "3",
+										justifyContent: "space-between",
+									}}
 								>
-									Edit
-								</Components.Atoms.Buttons.ActionButton>
+									{/* <div style={{ width: "50%" }}> */}
+									<Components.Atoms.Buttons.ActionButton
+										onClick={() => startEditCategory(category)}
+									>
+										Edit
+									</Components.Atoms.Buttons.ActionButton>
+									{/* </div> */}
+									{/* <div style={{ width: "50%" }}> */}
+									<Components.Atoms.Buttons.RemoveButton
+										onClick={() => console.log(category, "remove")}
+									>
+										Remove
+									</Components.Atoms.Buttons.RemoveButton>
+									{/* </div> */}
+								</div>
 							</div>
 						))}
 					</div>
@@ -189,10 +216,19 @@ const Prizes = () => {
 				<Formik
 					initialValues={categoryToEdit}
 					onSubmit={(values) => {
-						// console.log(values);
 						setIsCategoryModalOpen(false);
 						// TODO: create a new prize category, need to fix to take in prizes to
-						dispatch(Redux.Actions.createPrizeCategory(values));
+						const formatValues = {
+							...values,
+							prizes: values.prizes.map((prize) => prize._id),
+						};
+						if (isEditPrizeCategory) {
+							console.log(formatValues, "values i onSubmit");
+
+							// dispatch(Redux.Actions.updatePrizeCategory(formatValues));
+						} else {
+							dispatch(Redux.Actions.createPrizeCategory(formatValues));
+						}
 					}}
 				>
 					<Form>
@@ -225,7 +261,6 @@ const Prizes = () => {
 				onClose={() => closePrizeForm()}
 			>
 				<Formik
-					// TODO: set initalValues as the state and set state as empty values if not editing
 					initialValues={prizeToEdit}
 					onSubmit={(values) => {
 						console.log(values);
