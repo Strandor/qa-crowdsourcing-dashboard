@@ -11,6 +11,9 @@ export enum Prizes {
 	MODIFY_PRIZE = "MODIFY_PRIZE",
 	MODIFY_PRIZE_SUCCESS = "MODIFY_PRIZE_SUCCESS",
 	MODIFY_PRIZE_FAILURE = "MODIFY_PRIZE_FAILURE",
+	DELETE_PRIZE = "DELETE_PRIZE",
+	DELETE_PRIZE_SUCCESS = "DELETE_PRIZE_SUCCESS",
+	DELETE_PRIZE_FAILURE = "DELETE_PRIZE_FAILURE",
 }
 
 export const fetchPrizes = () => createAction(Prizes.FETCH_PRIZES);
@@ -43,4 +46,16 @@ export const modifyPrizeSuccess = (payload: Declerations.Prizes.Prize) => {
 
 export const modifyPrizeFailure = (error: Declerations.App.Error) => {
 	return createAction(Prizes.MODIFY_PRIZE_FAILURE, error);
+};
+
+export const deletePrize = (payload: Declerations.Prizes.Prize) => {
+	return createAction(Prizes.DELETE_PRIZE, payload);
+};
+
+export const deletePrizeSuccess = (payload: Declerations.Prizes.Prize) => {
+	return createAction(Prizes.DELETE_PRIZE_SUCCESS, payload);
+};
+
+export const deletePrizeFailure = (error: Declerations.App.Error) => {
+	return createAction(Prizes.DELETE_PRIZE_FAILURE, error);
 };

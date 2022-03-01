@@ -135,8 +135,8 @@ const Prizes = () => {
 									</div>
 									<div style={{ width: "50%" }}>
 										<Components.Atoms.Buttons.RemoveButton
-											// onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
-											onClick={() => console.log(prize)}
+											onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
+											// onClick={() => console.log(prize)}
 										>
 											Remove
 										</Components.Atoms.Buttons.RemoveButton>

@@ -47,10 +47,10 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 				total: {
 					isLoading: false,
 					data: [
-						...state.total.data.filter(
-							(prize) => prize._id == action.payload._id
-						),
 						action.payload,
+						...state.total.data.filter(
+							(prize) => prize._id != action.payload._id
+						),
 					],
 				},
 			};
@@ -59,6 +59,30 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 				...state,
 				total: { isLoading: false, data: [...state.total.data] },
 			};
+
+		case Prizes.DELETE_PRIZE:
+			return {
+				...state,
+				total: { isLoading: true, data: [...state.total.data] },
+			};
+		case Prizes.DELETE_PRIZE_SUCCESS:
+			return {
+				...state,
+				total: {
+					isLoading: false,
+					data: [
+						...state.total.data.filter(
+							(prize) => prize._id != action.payload._id
+						),
+					],
+				},
+			};
+		case Prizes.DELETE_PRIZE_FAILURE:
+			return {
+				...state,
+				total: { isLoading: false, data: [...state.total.data] },
+			};
+
 		default:
 			return state;
 	}

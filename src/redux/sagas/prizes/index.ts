@@ -10,6 +10,9 @@ import {
 	modifyPrize,
 	modifyPrizeSuccess,
 	modifyPrizeFailure,
+	deletePrize,
+	deletePrizeSuccess,
+	deletePrizeFailure,
 } from "../../actions";
 import * as Declerations from "../../../declerations";
 import { ExtractActionFromActionCreator } from "../../types";
@@ -53,10 +56,24 @@ function* onModifyPrize(
 	}
 }
 
+function* onDeletePrize(
+	action: ExtractActionFromActionCreator<typeof deletePrize>
+) {
+	try {
+		const { data } = yield API.delete<Declerations.Prizes.Prize>(
+			`/api/v1/prizes/prize/${action.payload._id}`
+		);
+		yield put(deletePrizeSuccess(data));
+	} catch (error) {
+		yield put(deletePrizeFailure(error.response.data));
+	}
+}
+
 export default function* prizes() {
 	yield all([
 		yield takeLatest(Prizes.FETCH_PRIZES, onFetchPrizes),
 		yield takeLatest(Prizes.CREATE_PRIZE, onCreatePrize),
 		yield takeLatest(Prizes.MODIFY_PRIZE, onModifyPrize),
+		yield takeLatest(Prizes.DELETE_PRIZE, onDeletePrize),
 	]);
 }

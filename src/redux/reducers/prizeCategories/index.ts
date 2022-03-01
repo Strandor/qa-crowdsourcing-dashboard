@@ -4,7 +4,6 @@ import { Reducer } from "../../types";
 import { State } from "./interface";
 import { initialState } from "./utils";
 
-// TODO:
 const reducer: Reducer<State> = (state = initialState, action) => {
 	switch (action.type) {
 		case PrizeCategories.FETCH_PRIZECATEGORIES:
