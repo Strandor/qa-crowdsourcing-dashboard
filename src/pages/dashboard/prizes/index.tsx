@@ -5,6 +5,7 @@ import * as Components from "../../../components";
 import * as Declarations from "../../../declerations";
 import { Field, Form, Formik } from "formik";
 import { FormikSelect } from "../../../components/atoms";
+import Select from "react-select";
 
 const INITIAL_CATEGORY_VALUES: Declarations.Prizes.PrizeCategory = {
 	name: "",
@@ -42,7 +43,7 @@ const Prizes = () => {
 	useEffect(() => {
 		dispatch(Redux.Actions.fetchPrizes());
 		dispatch(Redux.Actions.fetchPrizeCategories());
-	}, []);
+	}, [prizeCategories]);
 
 	const dropdownOptions = prizes.map((prize) => {
 		return { value: prize._id, label: prize.name };
@@ -52,6 +53,7 @@ const Prizes = () => {
 
 	const onSelectValues = (value) => {
 		const newState = [...value];
+		console.log(value);
 		setSelectVal(newState);
 	};
 
@@ -223,7 +225,7 @@ const Prizes = () => {
 						setIsCategoryModalOpen(false);
 						const formatValues = {
 							...values,
-							prizes: values.prizes.map((prize) => prize._id),
+							prizes: selectVal.map((prize) => prize.value),
 						};
 						if (isEditPrizeCategory) {
 							console.log(formatValues, "values i onSubmit");
@@ -247,12 +249,18 @@ const Prizes = () => {
 							type="text"
 							name="lockedImg"
 						/>
-
-						<FormikSelect
+						<Select
+							isMulti
+							options={dropdownOptions} // set list of the data
+							onChange={(value) => onSelectValues(value)}
+							value={selectVal} // set selected value
+							name="prizes"
+						/>
+						{/* <FormikSelect
 							handlePrizeSelect={(value) => onSelectValues(value)}
 							value={selectVal}
 							options={dropdownOptions}
-						/>
+						/> */}
 						<Components.Atoms.Buttons.ActionButton>
 							Búa til
 						</Components.Atoms.Buttons.ActionButton>

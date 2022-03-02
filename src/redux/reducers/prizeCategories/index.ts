@@ -49,7 +49,7 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 			};
 		case PrizeCategories.UPDATE_PRIZECATEGORY_SUCCESS:
 			const newData = state.total.data.filter(
-				(category) => category._id == action.payload._id
+				(category) => category._id != action.payload._id
 			);
 			return {
 				...state,

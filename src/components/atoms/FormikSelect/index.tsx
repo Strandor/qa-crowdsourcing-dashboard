@@ -10,6 +10,7 @@ const FormikSelect = ({ value, handlePrizeSelect, options }) => {
 				options={options} // set list of the data
 				onChange={handlePrizeSelect}
 				value={value} // set selected value
+				name="prizes"
 			/>
 		</div>
 	);
