@@ -36,12 +36,12 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 				...state,
 				total: { isLoading: false, data: [...state.total.data] },
 			};
-		case Prizes.MODIFY_PRIZE:
+		case Prizes.UPDATE_PRIZE:
 			return {
 				...state,
 				total: { isLoading: true, data: [...state.total.data] },
 			};
-		case Prizes.MODIFY_PRIZE_SUCCESS:
+		case Prizes.UPDATE_PRIZE_SUCCESS:
 			return {
 				...state,
 				total: {
@@ -54,7 +54,7 @@ const reducer: Reducer<State> = (state = initialState, action) => {
 					],
 				},
 			};
-		case Prizes.MODIFY_PRIZE_FAILURE:
+		case Prizes.UPDATE_PRIZE_FAILURE:
 			return {
 				...state,
 				total: { isLoading: false, data: [...state.total.data] },

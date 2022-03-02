@@ -27,7 +27,7 @@ const Prizes = () => {
 	const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 	const [isPrizeModalOpen, setIsPrizeModalOpen] = useState(false);
 
-	const [isEditPrize, setIsEditPrize] = useState(false);
+	const [isEditPrizeValues, setIsEditPrizeValues] = useState(false);
 	const [isEditPrizeCategory, setIsEditPrizeCategory] = useState(false);
 
 	const prizeCategories = useSelector(
@@ -60,9 +60,10 @@ const Prizes = () => {
 	const [categoryToEdit, setCategoryToEdit] = useState(INITIAL_CATEGORY_VALUES);
 
 	const startEditPrize = (prize: Declarations.Prizes.Prize) => {
+		console.log(prize);
+		setIsEditPrizeValues(true); //TODO: fix this causing crash
 		setIsPrizeModalOpen(true);
 		setPrizeToEdit(prize);
-		setIsEditPrize(true);
 	};
 
 	const startEditCategory = (category: Declarations.Prizes.PrizeCategory) => {
@@ -79,7 +80,7 @@ const Prizes = () => {
 
 	const closePrizeForm = () => {
 		setIsPrizeModalOpen(false);
-		setIsEditPrize(false);
+		setIsEditPrizeValues(false);
 		setPrizeToEdit(INITIAL_PRIZE_VALUES);
 	};
 
@@ -95,14 +96,15 @@ const Prizes = () => {
 	);
 
 	const popUpWarning = (prize: Declarations.Prizes.Prize) => {
-		const isPrizeInUse = prizeCategories.map((category) => {
+		const isPrizeInUse = prizeCategories.some((category) => {
 			setCategoryInWarning(category);
-			return category.prizes.includes(prize) ? true : false;
+			return category.prizes.some((p) => prize._id == p._id) ? true : false;
 		});
 		if (isPrizeInUse) {
 			setShowWarning(true);
 		} else {
 			dispatch(Redux.Actions.deletePrize(prize));
+			// console.log("remove prize");
 		}
 	};
 
@@ -152,6 +154,7 @@ const Prizes = () => {
 									<div style={{ width: "50%" }}>
 										<Components.Atoms.Buttons.ActionButton
 											onClick={() => startEditPrize(prize)}
+											// onClick={() => console.log(prize)}
 										>
 											Edit
 										</Components.Atoms.Buttons.ActionButton>
@@ -284,7 +287,7 @@ const Prizes = () => {
 							options={dropdownOptions}
 						/> */}
 						<Components.Atoms.Buttons.ActionButton>
-							Búa til
+							Staðfesta
 						</Components.Atoms.Buttons.ActionButton>
 					</Form>
 				</Formik>
@@ -296,28 +299,33 @@ const Prizes = () => {
 				<Formik
 					initialValues={prizeToEdit}
 					onSubmit={(values) => {
-						console.log(values);
-						dispatch(Redux.Actions.createPrize(values));
+						setIsPrizeModalOpen(false);
+						if (isEditPrizeValues) {
+							const valuesToUpdate = {
+								...values,
+								available: !values.available,
+							};
+							dispatch(Redux.Actions.updatePrize(valuesToUpdate));
+						} else {
+							dispatch(Redux.Actions.createPrize(values));
+						}
 					}}
 				>
 					<Form>
 						<Field placeholder="Nafn" type="text" name="name" />
 						<Field placeholder="mynd" type="text" name="img" />
 						<Field placeholder="brandMynd" type="text" name="brandImg" />
-						{isEditPrize ? (
-							<Field
-								placeholder="Merkja sem farid"
-								type="checkbox"
-								name="available"
-							>
-								Merkja sem farið
-							</Field>
-						) : (
-							<></>
-						)}
+						<p style={{ textAlign: "center" }}>
+							Merkja að vinningurinn sé farinn
+						</p>
+						<Field
+							placeholder="Merkja sem farid"
+							type="checkbox"
+							name="available"
+						/>
 
 						<Components.Atoms.Buttons.ActionButton>
-							Búa til
+							Staðfesta
 						</Components.Atoms.Buttons.ActionButton>
 					</Form>
 				</Formik>
@@ -331,7 +339,7 @@ const Prizes = () => {
 					honum á meðan hann er í notkun
 				</h1>
 				<Components.Atoms.Items.PrizeCategory {...categoryInWarning} />
-				<Components.Atoms.Buttons.ActionButton>
+				<Components.Atoms.Buttons.ActionButton onClick={() => closeWarning()}>
 					Ég skil
 				</Components.Atoms.Buttons.ActionButton>
 			</Components.Atoms.Wrappers.Overlay>
