@@ -5,7 +5,7 @@ export interface PrizeCategory {
 	prereqDescription: string;
 	requiredLVL?: Number;
 	lockedImg: string;
-	prizes: Prize[] | string[];
+	prizes: Prize[]; //| string[];
 	unlockedImg: string;
 }
 

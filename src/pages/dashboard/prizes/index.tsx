@@ -43,7 +43,7 @@ const Prizes = () => {
 	useEffect(() => {
 		dispatch(Redux.Actions.fetchPrizes());
 		dispatch(Redux.Actions.fetchPrizeCategories());
-	}, [prizeCategories]);
+	}, []);
 
 	const dropdownOptions = prizes.map((prize) => {
 		return { value: prize._id, label: prize.name };
@@ -53,7 +53,6 @@ const Prizes = () => {
 
 	const onSelectValues = (value) => {
 		const newState = [...value];
-		console.log(value);
 		setSelectVal(newState);
 	};
 
@@ -88,6 +87,28 @@ const Prizes = () => {
 		setIsCategoryModalOpen(false);
 		setIsEditPrizeCategory(false);
 		setCategoryToEdit(INITIAL_CATEGORY_VALUES);
+	};
+
+	const [showWarning, setShowWarning] = useState(false);
+	const [categoryInWarning, setCategoryInWarning] = useState(
+		INITIAL_CATEGORY_VALUES
+	);
+
+	const popUpWarning = (prize: Declarations.Prizes.Prize) => {
+		const isPrizeInUse = prizeCategories.map((category) => {
+			setCategoryInWarning(category);
+			return category.prizes.includes(prize) ? true : false;
+		});
+		if (isPrizeInUse) {
+			setShowWarning(true);
+		} else {
+			dispatch(Redux.Actions.deletePrize(prize));
+		}
+	};
+
+	const closeWarning = () => {
+		setShowWarning(false);
+		setCategoryInWarning(INITIAL_CATEGORY_VALUES);
 	};
 
 	return (
@@ -137,8 +158,8 @@ const Prizes = () => {
 									</div>
 									<div style={{ width: "50%" }}>
 										<Components.Atoms.Buttons.RemoveButton
-											onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
-											// onClick={() => console.log(prize)}
+											// onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
+											onClick={() => popUpWarning(prize)}
 										>
 											Remove
 										</Components.Atoms.Buttons.RemoveButton>
@@ -158,7 +179,7 @@ const Prizes = () => {
 							paddingTop: "25px",
 						}}
 					>
-						<h1 style={{ paddingRight: "20px" }}>Vinningarflokkar</h1>
+						<h1 style={{ paddingRight: "20px" }}>Flokkar</h1>
 						<div style={{ paddingLeft: "20px" }}>
 							<Components.Atoms.Buttons.ActionButton
 								onClick={() => setIsCategoryModalOpen(true)}
@@ -249,6 +270,7 @@ const Prizes = () => {
 							type="text"
 							name="lockedImg"
 						/>
+						<p>Dropdown til ad taka út vinning eða bæta við</p>
 						<Select
 							isMulti
 							options={dropdownOptions} // set list of the data
@@ -299,6 +321,19 @@ const Prizes = () => {
 						</Components.Atoms.Buttons.ActionButton>
 					</Form>
 				</Formik>
+			</Components.Atoms.Wrappers.Overlay>
+			<Components.Atoms.Wrappers.Overlay
+				isVisible={showWarning}
+				onClose={() => closeWarning()}
+			>
+				<h1>
+					Þessi vinningur er skráður á vinningsflokk og því ekki hægt að eyða
+					honum á meðan hann er í notkun
+				</h1>
+				<Components.Atoms.Items.PrizeCategory {...categoryInWarning} />
+				<Components.Atoms.Buttons.ActionButton>
+					Ég skil
+				</Components.Atoms.Buttons.ActionButton>
 			</Components.Atoms.Wrappers.Overlay>
 		</>
 	);
