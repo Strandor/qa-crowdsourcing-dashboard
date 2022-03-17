@@ -126,7 +126,7 @@ const Prizes = () => {
 					>
 						<h1 style={{ paddingRight: "20px" }}>Verðlaun</h1>
 
-						<div style={{ paddingLeft: "20px", marginTop: "7.5px" }}>
+						<div style={{ paddingLeft: "20px", marginTop: "15px" }}>
 							<Components.Atoms.Buttons.ActionButton
 								onClick={() => setIsPrizeModalOpen(true)}
 							>
@@ -150,23 +150,30 @@ const Prizes = () => {
 									available={prize.available}
 									brandImg={prize.brandImg}
 								></Components.Atoms.Items.Prize>
-								<div style={{ display: "flex", flex: "2" }}>
-									<div style={{ width: "50%" }}>
-										<Components.Atoms.Buttons.ActionButton
-											onClick={() => startEditPrize(prize)}
-											// onClick={() => console.log(prize)}
-										>
-											Edit
-										</Components.Atoms.Buttons.ActionButton>
-									</div>
-									<div style={{ width: "50%" }}>
-										<Components.Atoms.Buttons.RemoveButton
-											// onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
-											onClick={() => popUpWarning(prize)}
-										>
-											Remove
-										</Components.Atoms.Buttons.RemoveButton>
-									</div>
+								{/* <div style={{ display: "flex", flex: "2" }}> */}
+								{/* <div style={{ width: "50%", alignItems: "flex-start" }}> */}
+								<div
+									style={{
+										display: "flex",
+										flex: "3",
+										justifyContent: "space-between",
+									}}
+								>
+									<Components.Atoms.Buttons.ActionButton
+										onClick={() => startEditPrize(prize)}
+										// onClick={() => console.log(prize)}
+									>
+										Edit
+									</Components.Atoms.Buttons.ActionButton>
+									{/* </div> */}
+									{/* <div style={{ width: "40%" }}> */}
+									<Components.Atoms.Buttons.RemoveButton
+										// onClick={() => dispatch(Redux.Actions.deletePrize(prize))}
+										onClick={() => popUpWarning(prize)}
+									>
+										Remove
+									</Components.Atoms.Buttons.RemoveButton>
+									{/* </div> */}
 								</div>
 							</div>
 						))}
@@ -194,12 +201,12 @@ const Prizes = () => {
 					<div
 						style={{
 							display: "grid",
-							gridTemplateColumns: "repeat(3, 1fr)",
+							gridTemplateColumns: "repeat(5, 1fr)",
 							gap: 50,
 						}}
 					>
 						{prizeCategories.map((category) => (
-							<div>
+							<div style={{ maxWidth: "300px" }}>
 								<Components.Atoms.Items.PrizeCategory
 									_id={category._id}
 									name={category.name}
