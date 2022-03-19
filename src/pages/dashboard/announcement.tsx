@@ -69,9 +69,14 @@ const Email = () => {
 						date: date.toISOString(),
 					};
 					console.log(dataToSend, "values");
-					if (sendingEmail) dispatch(Redux.Actions.sendEmail(dataToSend));
-					// else if (sendingNotification)
-					// dispatch(Redux.Actions.sendNotification(dataToSend));
+					if (sendingEmail) {
+						dispatch(Redux.Actions.sendEmail(dataToSend));
+						setSendingEmail(false);
+						// } else if (sendingNotification) {
+						// 	dispatch(Redux.Actions.sendNotification(dataToSend));
+						// 	setSendingNotification(false);
+						// }
+					}
 				}}
 			>
 				<Form>
@@ -107,7 +112,8 @@ const Email = () => {
 						</Components.Atoms.Buttons.AnnouncementButton>
 						<Components.Atoms.Buttons.AnnouncementButton
 							email={false}
-							onClick={() => setSendingNotification(true)}
+							// onClick={() => setSendingNotification(true)}
+							onClick={() => console.log("sending notif")}
 						>
 							Notification
 						</Components.Atoms.Buttons.AnnouncementButton>

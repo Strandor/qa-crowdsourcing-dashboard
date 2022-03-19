@@ -22,8 +22,9 @@ export const sendEmailFailure = (payload: Declerations.App.Error) =>
 	createAction(Announcements.SEND_EMAIL_FAILURE, payload);
 
 // Send notification announcement
-export const sendNotification = () =>
-	createAction(Announcements.SEND_NOTIFICATION);
+export const sendNotification = (
+	payload: Declerations.Announcements.Announcement
+) => createAction(Announcements.SEND_NOTIFICATION, payload);
 export const sendNotificationSuccess = (
 	payload: Declerations.Announcements.Announcement
 ) => {
