@@ -23,7 +23,7 @@ export default ({ children }: Props) => {
 					href="/dashboard/prizes"
 				/>
 				<Atoms.Buttons.IconButton
-					src="/icons/mail_black.svg"
+					src="/icons/AnnouncementOutlined.svg"
 					href="/dashboard/announcement"
 				/>
 			</div>

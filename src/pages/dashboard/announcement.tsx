@@ -55,71 +55,83 @@ const Email = () => {
 	return (
 		<Components.Layouts.Sidebar>
 			<h1>Tilkynning fyrir útdrætti</h1>
-			<Formik
-				initialValues={INITIAL_EMAIL_VALUES}
-				onSubmit={(values) => {
-					const selectedCategory = prizeCategories.find(
-						(category) => category.name == selectVal
-					);
-					// console.log(selectedCategory, "selectedCategory");
-					const dataToSend = {
-						...values,
-						prizeCategory: selectedCategory.name,
-						lvl: selectedCategory.requiredLVL,
-						date: date.toISOString(),
-					};
-					console.log(dataToSend, "values");
-					if (sendingEmail) {
-						dispatch(Redux.Actions.sendEmail(dataToSend));
-						setSendingEmail(false);
-						// } else if (sendingNotification) {
-						// 	dispatch(Redux.Actions.sendNotification(dataToSend));
-						// 	setSendingNotification(false);
-						// }
-					}
+			<div
+				style={{
+					display: "flex",
+					flex: 4,
 				}}
 			>
-				<Form>
-					{/* <Field placeholder="flokkur" type="number" name="flokkur" /> */}
-					<h3>Veldu flokk sem dregið verður úr</h3>
-					<Select
-						options={dropdownOptions} // set list of the data
-						onChange={(value) => handleCategoryChange(value.value)}
-						// value={selectVal} // set selected value
-						name="prizeCategory"
-					/>
-					<h3>Nafn á vinning</h3>
-					<Field placeholder="nafn á vinning" type="text" name="prize" />
-					<h3>Linkur á mynd</h3>
-					<Field placeholder="Mynd" type="text" name="img" />
-					<h3>Dagsetning</h3>
-					<SelectDate handleChange={handleChange} date={date} />
-					<h3>Klukkan</h3>
-					<Field placeholder="17:00" type="time" name="time" />
-					<div
-						style={{
-							display: "grid",
-							gridTemplateColumns: "repeat(2, 1fr)",
-							gap: 5,
-							marginTop: "10px",
+				<div style={{ flexGrow: 3 }}>
+					<Formik
+						initialValues={INITIAL_EMAIL_VALUES}
+						onSubmit={(values) => {
+							const selectedCategory = prizeCategories.find(
+								(category) => category.name == selectVal
+							);
+							// console.log(selectedCategory, "selectedCategory");
+							const dataToSend = {
+								...values,
+								prizeCategory: selectedCategory.name,
+								lvl: selectedCategory.requiredLVL,
+								date: date.toISOString(),
+							};
+							console.log(dataToSend, "values");
+							if (sendingEmail) {
+								dispatch(Redux.Actions.sendEmail(dataToSend));
+								setSendingEmail(false);
+								// } else if (sendingNotification) {
+								// 	dispatch(Redux.Actions.sendNotification(dataToSend));
+								// 	setSendingNotification(false);
+								// }
+							}
 						}}
 					>
-						<Components.Atoms.Buttons.AnnouncementButton
-							email={true}
-							onClick={() => setSendingEmail(true)}
-						>
-							Email
-						</Components.Atoms.Buttons.AnnouncementButton>
-						<Components.Atoms.Buttons.AnnouncementButton
-							email={false}
-							// onClick={() => setSendingNotification(true)}
-							onClick={() => console.log("sending notif")}
-						>
-							Notification
-						</Components.Atoms.Buttons.AnnouncementButton>
-					</div>
-				</Form>
-			</Formik>
+						<Form>
+							{/* <Field placeholder="flokkur" type="number" name="flokkur" /> */}
+							<h3>Veldu flokk sem dregið verður úr</h3>
+							<Select
+								options={dropdownOptions} // set list of the data
+								onChange={(value) => handleCategoryChange(value.value)}
+								// value={selectVal} // set selected value
+								name="prizeCategory"
+							/>
+							<h3>Nafn á vinning</h3>
+							<Field placeholder="nafn á vinning" type="text" name="prize" />
+							<h3>Linkur á mynd</h3>
+							<Field placeholder="Mynd" type="text" name="img" />
+							<h3>Dagsetning</h3>
+							<SelectDate handleChange={handleChange} date={date} />
+							<h3>Klukkan</h3>
+							<div style={{ width: "150px" }}>
+								<Field placeholder="17:00" type="time" name="time" />
+							</div>
+							<div
+								style={{
+									display: "grid",
+									gridTemplateColumns: "repeat(2, 1fr)",
+									gap: 5,
+									marginTop: "10px",
+								}}
+							>
+								<Components.Atoms.Buttons.AnnouncementButton
+									email={true}
+									onClick={() => setSendingEmail(true)}
+								>
+									Email
+								</Components.Atoms.Buttons.AnnouncementButton>
+								<Components.Atoms.Buttons.AnnouncementButton
+									email={false}
+									// onClick={() => setSendingNotification(true)}
+									onClick={() => console.log("sending notif")}
+								>
+									Notification
+								</Components.Atoms.Buttons.AnnouncementButton>
+							</div>
+						</Form>
+					</Formik>
+				</div>
+				<div style={{ flexGrow: 1 }}></div>
+			</div>
 		</Components.Layouts.Sidebar>
 	);
 };
