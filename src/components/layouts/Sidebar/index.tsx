@@ -24,7 +24,7 @@ export default ({ children }: Props) => {
 				/>
 				<Atoms.Buttons.IconButton
 					src="/icons/mail_black.svg"
-					href="/dashboard/email"
+					href="/dashboard/announcement"
 				/>
 			</div>
 			<div className={styles.content}>{children}</div>

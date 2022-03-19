@@ -9,6 +9,7 @@ import { SelectDate } from "../../components/atoms";
 interface EmailInterface {
 	date: string;
 	prizeCategory: string;
+	prize: string;
 	lvl: number;
 	img: string;
 	time: "";
@@ -17,6 +18,7 @@ interface EmailInterface {
 const INITIAL_EMAIL_VALUES: EmailInterface = {
 	date: "",
 	prizeCategory: "",
+	prize: "",
 	lvl: 0,
 	img: "",
 	time: "",
@@ -47,6 +49,9 @@ const Email = () => {
 	const [date, setDate] = useState(new Date());
 	const handleChange = (date: Date) => setDate(date);
 
+	const [sendingNotification, setSendingNotification] = useState(false);
+	const [sendingEmail, setSendingEmail] = useState(false);
+
 	return (
 		<Components.Layouts.Sidebar>
 			<h1>Tilkynning fyrir útdrætti</h1>
@@ -64,7 +69,9 @@ const Email = () => {
 						date: date.toISOString(),
 					};
 					console.log(dataToSend, "values");
-					dispatch(Redux.Actions.sendEmail(dataToSend));
+					if (sendingEmail) dispatch(Redux.Actions.sendEmail(dataToSend));
+					// else if (sendingNotification)
+					// dispatch(Redux.Actions.sendNotification(dataToSend));
 				}}
 			>
 				<Form>
@@ -76,15 +83,35 @@ const Email = () => {
 						// value={selectVal} // set selected value
 						name="prizeCategory"
 					/>
+					<h3>Nafn á vinning</h3>
+					<Field placeholder="nafn á vinning" type="text" name="prize" />
 					<h3>Linkur á mynd</h3>
 					<Field placeholder="Mynd" type="text" name="img" />
 					<h3>Dagsetning</h3>
 					<SelectDate handleChange={handleChange} date={date} />
 					<h3>Klukkan</h3>
 					<Field placeholder="17:00" type="time" name="time" />
-					<Components.Atoms.Buttons.ActionButton>
-						Staðfesta
-					</Components.Atoms.Buttons.ActionButton>
+					<div
+						style={{
+							display: "grid",
+							gridTemplateColumns: "repeat(2, 1fr)",
+							gap: 5,
+							marginTop: "10px",
+						}}
+					>
+						<Components.Atoms.Buttons.AnnouncementButton
+							email={true}
+							onClick={() => setSendingEmail(true)}
+						>
+							Email
+						</Components.Atoms.Buttons.AnnouncementButton>
+						<Components.Atoms.Buttons.AnnouncementButton
+							email={false}
+							onClick={() => setSendingNotification(true)}
+						>
+							Notification
+						</Components.Atoms.Buttons.AnnouncementButton>
+					</div>
 				</Form>
 			</Formik>
 		</Components.Layouts.Sidebar>

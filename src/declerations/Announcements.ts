@@ -3,4 +3,6 @@ export interface Announcement {
 	prizeCategory: string;
 	lvl: number;
 	img: string;
+	prize: string;
+	time: string;
 }
