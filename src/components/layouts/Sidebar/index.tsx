@@ -22,6 +22,10 @@ export default ({ children }: Props) => {
 					src="/icons/emoji_events_black_24dp.svg"
 					href="/dashboard/prizes"
 				/>
+				<Atoms.Buttons.IconButton
+					src="/icons/mail_black.svg"
+					href="/dashboard/email"
+				/>
 			</div>
 			<div className={styles.content}>{children}</div>
 		</div>

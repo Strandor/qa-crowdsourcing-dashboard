@@ -116,6 +116,11 @@ const Prizes = () => {
 	return (
 		<>
 			<Components.Layouts.Sidebar>
+				{/* TODO: gera loading */}
+				{/* <Components.Atoms.Wrappers.Loading
+				isLoading={users.signups.isLoading}
+				error={users.signups.error}
+			> */}
 				<div>
 					<div
 						style={{

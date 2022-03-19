@@ -3,7 +3,7 @@ export interface PrizeCategory {
 	name: string;
 	// chestURL: string;
 	prereqDescription: string;
-	requiredLVL?: Number;
+	requiredLVL: number;
 	lockedImg: string;
 	prizes: Prize[]; //| string[];
 	unlockedImg: string;
