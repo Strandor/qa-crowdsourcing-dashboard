@@ -64,6 +64,7 @@ const Email = () => {
 						date: date.toISOString(),
 					};
 					console.log(dataToSend, "values");
+					dispatch(Redux.Actions.sendEmail(dataToSend));
 				}}
 			>
 				<Form>

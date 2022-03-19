@@ -6,6 +6,7 @@ import questions from "./questions";
 import auth from "./auth";
 import prizes from "./prizes";
 import prizeCategories from "./prizeCategories";
+import announcements from "./announcement";
 
 export default function* rootSaga() {
 	yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga() {
 		yield fork(auth),
 		yield fork(prizeCategories),
 		yield fork(prizes),
+		yield fork(announcements),
 	]);
 }
