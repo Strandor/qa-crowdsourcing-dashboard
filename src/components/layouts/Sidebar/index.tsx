@@ -26,6 +26,10 @@ export default ({ children }: Props) => {
 					src="/icons/AnnouncementOutlined.svg"
 					href="/dashboard/announcement"
 				/>
+				<Atoms.Buttons.IconButton
+					src="/icons/AnnouncementOutlined.svg"
+					href="/dashboard/giveAways"
+				/>
 			</div>
 			<div className={styles.content}>{children}</div>
 		</div>

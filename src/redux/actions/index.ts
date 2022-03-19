@@ -5,3 +5,4 @@ export * from "./auth";
 export * from "./prizes";
 export * from "./prizeCategories";
 export * from "./annoumcements";
+export * from "./giveAways";
