@@ -4,25 +4,14 @@ import * as Redux from "../../redux";
 import * as Components from "../../components";
 import { Formik, Field, Form } from "formik";
 import Select, { GroupBase, Props } from "react-select";
-
-type OptionType = {
-	value: string;
-	label: string;
-};
-
-// type OptionType = {
-// 	prizeCategory: {
-// 		name: string;
-// 		lvl: number;
-// 	};
-// 	label?: string;
-// };
+import { SelectDate } from "../../components/atoms";
 
 interface EmailInterface {
 	date: string;
 	prizeCategory: string;
 	lvl: number;
 	img: string;
+	time: "";
 }
 
 const INITIAL_EMAIL_VALUES: EmailInterface = {
@@ -30,6 +19,7 @@ const INITIAL_EMAIL_VALUES: EmailInterface = {
 	prizeCategory: "",
 	lvl: 0,
 	img: "",
+	time: "",
 };
 
 const Email = () => {
@@ -48,17 +38,14 @@ const Email = () => {
 		return { value: category.name, label: category.name };
 	});
 
-	// const dropdownOptions = prizeCategories.map((category) => {
-	// 	return category.name;
-	// });
-
-	console.log(dropdownOptions);
-
-	const handleChange = (data: string) => {
+	const handleCategoryChange = (data: string) => {
 		console.log(data);
 		setSelectVal(data);
 		console.log(selectVal);
 	};
+
+	const [date, setDate] = useState(new Date());
+	const handleChange = (date: Date) => setDate(date);
 
 	return (
 		<Components.Layouts.Sidebar>
@@ -74,6 +61,7 @@ const Email = () => {
 						...values,
 						prizeCategory: selectedCategory.name,
 						lvl: selectedCategory.requiredLVL,
+						date: date.toISOString(),
 					};
 					console.log(dataToSend, "values");
 				}}
@@ -83,19 +71,16 @@ const Email = () => {
 					<h3>Veldu flokk sem dregið verður úr</h3>
 					<Select
 						options={dropdownOptions} // set list of the data
-						onChange={(value) => handleChange(value.value)}
+						onChange={(value) => handleCategoryChange(value.value)}
 						// value={selectVal} // set selected value
 						name="prizeCategory"
 					/>
-
+					<h3>Linkur á mynd</h3>
 					<Field placeholder="Mynd" type="text" name="img" />
-					{/* <Select
-					isMulti
-					options={dropdownOptions} // set list of the data
-					onChange={(value) => onSelectValues(value)}
-					value={selectVal} // set selected value
-					name="prizes"
-				/> */}
+					<h3>Dagsetning</h3>
+					<SelectDate handleChange={handleChange} date={date} />
+					<h3>Klukkan</h3>
+					<Field placeholder="17:00" type="time" name="time" />
 					<Components.Atoms.Buttons.ActionButton>
 						Staðfesta
 					</Components.Atoms.Buttons.ActionButton>
